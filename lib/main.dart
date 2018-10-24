@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 void main() {
   runApp(CupertinoApp(
     debugShowCheckedModeBanner: false,
-    home: SimplePage(),
+    home: SliverDemo(),
   ));
 }
 
@@ -15,7 +15,6 @@ class DemoTabs extends StatefulWidget {
 class _DemoTabsState extends State<DemoTabs> {
   @override
   Widget build(BuildContext context) {
-//    return buildCupertinoPageScaffold();
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(items: [
         BottomNavigationBarItem(
@@ -32,10 +31,7 @@ class _DemoTabsState extends State<DemoTabs> {
       },
     );
   }
-
-
 }
-
 
 class SimplePage extends StatefulWidget {
   @override
@@ -43,7 +39,6 @@ class SimplePage extends StatefulWidget {
 }
 
 class _SimplePageState extends State<SimplePage> {
-
   CupertinoPageScaffold buildCupertinoPageScaffold() {
     return CupertinoPageScaffold(
       child: Center(
@@ -60,5 +55,30 @@ class _SimplePageState extends State<SimplePage> {
   @override
   Widget build(BuildContext context) {
     return buildCupertinoPageScaffold();
+  }
+}
+
+class SliverDemo extends StatefulWidget {
+  @override
+  _SliverDemoState createState() => _SliverDemoState();
+}
+
+class _SliverDemoState extends State<SliverDemo> {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      child: CustomScrollView(
+        slivers: <Widget>[
+          CupertinoSliverNavigationBar(
+            largeTitle: Text("Chat"),
+          ),
+          SliverFillRemaining(
+            child: Center(
+              child: Text("WhatsApp"),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
