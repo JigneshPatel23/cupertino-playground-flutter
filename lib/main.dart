@@ -112,6 +112,13 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
     docSub = stream.listen((DocumentSnapshot snap){
       updateLatestQuote(snap);
     },);
+
+    bannerRef.getDocuments().then((QuerySnapshot snap){
+      print('bannerRef - snap.documents - ${snap.documents.length}');
+      for(DocumentSnapshot doc in snap.documents){
+        print('bannerRef - snap.documents - ${doc.data}');
+      }
+    },);
   }
 
 
