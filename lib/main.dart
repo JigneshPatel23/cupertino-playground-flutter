@@ -1,55 +1,64 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  runApp(CupertinoApp(
+    debugShowCheckedModeBanner: false,
+    home: SimplePage(),
+  ));
+}
 
-class MyApp extends StatelessWidget {
+class DemoTabs extends StatefulWidget {
+  @override
+  _DemoTabsState createState() => _DemoTabsState();
+}
+
+class _DemoTabsState extends State<DemoTabs> {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new MyHomePage(title: 'Flutter Demo Home Page'),
+//    return buildCupertinoPageScaffold();
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(items: [
+        BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.phone), title: Text("Phone")),
+        BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.conversation_bubble), title: Text("Chat"))
+      ]),
+      tabBuilder: (context, position) {
+        return CupertinoPageScaffold(
+          child: Center(
+            child: Text("Tab ${position + 1}"),
+          ),
+        );
+      },
     );
   }
+
+
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
 
-  final String title;
-
+class SimplePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _SimplePageState createState() => _SimplePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
+class _SimplePageState extends State<SimplePage> {
+
+  CupertinoPageScaffold buildCupertinoPageScaffold() {
+    return CupertinoPageScaffold(
+      child: Center(
+        child: Text("Jignesh"),
       ),
-      body: new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'You have pushed the button this many times:',
-            ),
-            new Text(
-              '00',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
+      navigationBar: CupertinoNavigationBar(
+        leading: Icon(CupertinoIcons.back),
+        middle: Text("App Name"),
+        trailing: Icon(CupertinoIcons.search),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return buildCupertinoPageScaffold();
   }
 }
