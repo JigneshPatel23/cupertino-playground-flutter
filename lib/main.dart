@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(CupertinoApp(
     debugShowCheckedModeBanner: false,
-    home: SliverDemo(),
+    home: FirebaseDemo(),
   ));
 }
 
@@ -78,6 +80,59 @@ class _SliverDemoState extends State<SliverDemo> {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class FirebaseDemo extends StatefulWidget {
+  @override
+  _FirebaseDemoState createState() => _FirebaseDemoState();
+}
+
+class _FirebaseDemoState extends State<FirebaseDemo> {
+
+  var quoteController = TextEditingController();
+  var authorController = TextEditingController();
+
+  void addDocument(){
+    var docRef = Firestore.instance.collection("simple-data").document("test");
+    docRef.setData({
+      "Quote" : quoteController.text,
+      "Author" : authorController.text
+    },).then((_){
+      print("Document saved successfully");
+    },).catchError((e){
+      print("Error while saving document");
+      print(e);
+    },);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      child: Form(
+        child: ListView(
+          children: <Widget>[
+            Material(
+              child: TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Quotation"
+                ),
+                controller: quoteController,
+              ),
+            ),
+            Material(
+              child: TextFormField(
+                decoration: InputDecoration(
+                    labelText: "Author"
+                ),
+                controller: authorController,
+              ),
+            ),
+            CupertinoButton(child: Text("Save"), onPressed: addDocument)
+          ],
+        ),
       ),
     );
   }

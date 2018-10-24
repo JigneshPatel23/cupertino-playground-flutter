@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "843878220941",
+    "firebase_url": "https://slideshot-productions.firebaseio.com",
+    "project_id": "slideshot-productions",
+    "storage_bucket": "slideshot-productions.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843878220941:android:ff2b9b749acd4583",
+        "android_client_info": {
+          "package_name": "com.omegaorbit.cupertinoplayground"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843878220941-td6vle46sc509a3anqcrcur1emcq6gri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_2cnmv7PUQw99Fd8pjUKvFBN_rYvSPrA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
