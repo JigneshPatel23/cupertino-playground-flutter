@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -95,17 +97,61 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
   var quoteController = TextEditingController();
   var authorController = TextEditingController();
 
+  static String KEY_QUOTE = "Quote";
+  static String KEY_AUTHOR = "Author";
+
+  var docRef = Firestore.instance.collection("simple-data").document("test");
+  StreamSubscription docSub;
+
+  var bannerRef = Firestore.instance.collection("banner-images");
+
+  @override
+  void initState() {
+    super.initState();
+    Stream<DocumentSnapshot> stream = docRef.snapshots();
+    docSub = stream.listen((DocumentSnapshot snap){
+      updateLatestQuote(snap);
+    },);
+  }
+
+
+  @override
+  void dispose() {
+    docSub.cancel();
+    super.dispose();
+  }
+
   void addDocument(){
-    var docRef = Firestore.instance.collection("simple-data").document("test");
     docRef.setData({
-      "Quote" : quoteController.text,
-      "Author" : authorController.text
+      KEY_QUOTE : quoteController.text,
+      KEY_AUTHOR : authorController.text
     },).then((_){
       print("Document saved successfully");
     },).catchError((e){
       print("Error while saving document");
       print(e);
     },);
+  }
+
+  var fetchedText;
+
+  void fetchDocument(){
+    docRef.get().then((DocumentSnapshot snap){
+      updateLatestQuote(snap);
+    },);
+  }
+
+  void updateLatestQuote(DocumentSnapshot snap) {
+    print("fetchDocument");
+    print(snap.documentID);
+    print(snap.data);
+    var quote = snap.data[KEY_QUOTE];
+    var author = snap.data[KEY_AUTHOR];
+    fetchedText = "\"${quote}\" - ${author}";
+    print(fetchedText);
+    setState(() {
+
+    });
   }
 
   @override
@@ -130,10 +176,14 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
                 controller: authorController,
               ),
             ),
-            CupertinoButton(child: Text("Save"), onPressed: addDocument)
+            CupertinoButton(child: Text("Save"), onPressed: addDocument),
+            Text(fetchedText == null ? "" : fetchedText),
+            CupertinoButton(child: Text("Fetch"), onPressed: fetchDocument),
           ],
         ),
       ),
     );
   }
+
+
 }
